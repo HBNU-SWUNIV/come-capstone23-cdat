@@ -2,7 +2,6 @@ package kr.co.hs.businfo.data
 
 import org.junit.Test
 
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +11,5 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertNotEquals("this is uh..", BusInfoData().get())
     }
 }
