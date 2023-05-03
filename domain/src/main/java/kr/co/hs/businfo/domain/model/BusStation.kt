@@ -1,6 +1,6 @@
 package kr.co.hs.businfo.domain.model
 
-class BusStation (
+data class BusStation(
     val stationName: String,
     val stationId: Int,
     val stationLatitude: Double,
