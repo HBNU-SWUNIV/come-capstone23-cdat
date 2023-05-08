@@ -3,7 +3,7 @@ package kr.co.hs.businfo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
-import kr.co.hs.businfo.data.datasource.impl.BusInfoRemoteSourceImpl
+import kr.co.hs.businfo.data.repository.BusStationRepositoryImpl
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -12,19 +12,20 @@ class BusInfoDataTest {
 
     @Test
     fun getBusStationTest() = runBlocking {
-        val remoteSource = BusInfoRemoteSourceImpl()
-        // 113번 버스 노선 요청
-        val result = remoteSource.getStations("113")
+        val busStationRepository = BusStationRepositoryImpl()
 
-        assertEquals(result.size, 2)
+        // 113번 버스 노선 요청
+        val result = busStationRepository.getBusStationByBusNum(113)
+
+        assertEquals(result.size, 8)
 
         return@runBlocking
     }
 
     @Test
     fun findBusStation() = runBlocking {
-        val remoteSource = BusInfoRemoteSourceImpl()
-        val result = remoteSource.findStationByName("부대통")
+        val repository = BusStationRepositoryImpl()
+        val result = repository.searchBusStationByName("부대통")
         assertEquals(result.size, 1)
         return@runBlocking
     }

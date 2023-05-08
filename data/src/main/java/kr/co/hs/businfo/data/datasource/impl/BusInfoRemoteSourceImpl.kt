@@ -28,4 +28,10 @@ class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
         return result.documents
             .mapNotNull { it.toObject(BusStationModel::class.java) }
     }
+
+    override suspend fun getStation(id: String) = busStationCollection
+        .document(id)
+        .get()
+        .await()
+        .toObject(BusStationModel::class.java)
 }
