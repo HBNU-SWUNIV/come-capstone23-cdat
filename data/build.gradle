@@ -61,4 +61,6 @@ dependencies {
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    // GeoHash 쿼리를 위해 필요
+    implementation 'com.firebase:geofire-android-common:3.2.0'
 }

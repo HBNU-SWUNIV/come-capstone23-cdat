@@ -1,5 +1,6 @@
 package kr.co.hs.businfo.data.repository
 
+import com.google.firebase.firestore.GeoPoint
 import kr.co.hs.businfo.data.datasource.BusInfoRemoteSource
 import kr.co.hs.businfo.data.datasource.impl.BusInfoRemoteSourceImpl
 import kr.co.hs.businfo.data.mapper.BusStationMapper.toDomain
@@ -26,4 +27,12 @@ class BusStationRepositoryImpl : BusStationRepository {
         busInfoRemoteSource
             .getStations(id.toString())
             .mapNotNull { it.toDomain() }
+
+    override suspend fun getBusStationByUserLocation(
+        latitude: Double,
+        longitude: Double,
+        radius: Double
+    ) = busInfoRemoteSource
+        .getStations(GeoPoint(latitude, longitude), radius)
+        .mapNotNull { it.toDomain() }
 }
