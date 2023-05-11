@@ -17,7 +17,7 @@ class GetBusStationUsecase(private val busStationRepository: BusStationRepositor
         return busStationRepository.getBusStationByBusNum(id)
     }
 
-    suspend fun getBusStationByLocation(latitude: Double, longitude: Double): List<BusStation> {
-        return busStationRepository.getBusStationByUserLocation(latitude, longitude)
+    suspend fun getBusStationByLocation(latitude: Double, longitude: Double, radius: Double): List<BusStation> {
+        return busStationRepository.getBusStationByUserLocation(latitude, longitude, radius)
     }
 }
