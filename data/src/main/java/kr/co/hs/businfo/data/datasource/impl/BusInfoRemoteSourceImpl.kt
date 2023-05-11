@@ -1,11 +1,22 @@
 package kr.co.hs.businfo.data.datasource.impl
 
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.Transaction
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import kr.co.hs.businfo.data.datasource.BusInfoRemoteSource
 import kr.co.hs.businfo.data.model.BusStationModel
 
 class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
+    override fun createStation(transaction: Transaction, busStation: BusStationModel) {
+        transaction.set(busStationCollection.document(busStation.id!!), busStation)
+    }
+
     override suspend fun getStations(busNumber: String): List<BusStationModel> {
         val result = busStationCollection
             .whereArrayContains("bus", busNumber)
@@ -34,4 +45,41 @@ class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
         .get()
         .await()
         .toObject(BusStationModel::class.java)
+
+    override suspend fun getStations(
+        geoPoint: GeoPoint,
+        radiusInKM: Double
+    ): List<BusStationModel> {
+        val center = GeoLocation(geoPoint.latitude, geoPoint.longitude)
+        val radiusInM = radiusInKM * 1000
+
+        val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM)
+
+        val result = coroutineScope {
+            val jobs = bounds.map {
+                async {
+                    busStationCollection
+                        .orderBy("geoHash")
+                        .startAt(it.startHash)
+                        .endAt(it.endHash)
+                        .get()
+                        .await()
+                }
+            }
+            awaitAll(*jobs.toTypedArray())
+        }.mapNotNull { snapshot ->
+            snapshot
+                .documents
+                .mapNotNull { it.toObject(BusStationModel::class.java) }
+                .mapNotNull {
+                    it.location
+                        ?.run { GeoLocation(latitude, longitude) }
+                        ?.run { GeoFireUtils.getDistanceBetween(this, center) }
+                        .takeIf { distanceInM -> distanceInM != null && distanceInM <= radiusInM }
+                        ?.run { it }
+                }
+        }.flatten()
+
+        return result
+    }
 }
