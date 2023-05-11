@@ -9,5 +9,5 @@ interface BusInfoRemoteSource {
     suspend fun getStations(busNumber: String): List<BusStationModel>
     suspend fun findStationByName(name: String): List<BusStationModel>
     suspend fun getStation(id: String): BusStationModel?
-    suspend fun getStations(geoPoint: GeoPoint, radiusInKM: Double): List<BusStationModel>
+    suspend fun getStations(geoPoint: GeoPoint, radiusInMeters: Double): List<BusStationModel>
 }

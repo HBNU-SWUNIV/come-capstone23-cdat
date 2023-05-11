@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 import kr.co.hs.businfo.data.datasource.BusInfoRemoteSource
 import kr.co.hs.businfo.data.model.BusStationModel
 
-class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
+internal class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
     override fun createStation(transaction: Transaction, busStation: BusStationModel) {
         transaction.set(busStationCollection.document(busStation.id!!), busStation)
     }
@@ -48,12 +48,10 @@ class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
 
     override suspend fun getStations(
         geoPoint: GeoPoint,
-        radiusInKM: Double
+        radiusInMeters: Double
     ): List<BusStationModel> {
         val center = GeoLocation(geoPoint.latitude, geoPoint.longitude)
-        val radiusInM = radiusInKM * 1000
-
-        val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM)
+        val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInMeters)
 
         val result = coroutineScope {
             val jobs = bounds.map {
@@ -75,7 +73,7 @@ class BusInfoRemoteSourceImpl : BusInfoRemoteSource {
                     it.location
                         ?.run { GeoLocation(latitude, longitude) }
                         ?.run { GeoFireUtils.getDistanceBetween(this, center) }
-                        .takeIf { distanceInM -> distanceInM != null && distanceInM <= radiusInM }
+                        .takeIf { distanceInM -> distanceInM != null && distanceInM <= radiusInMeters }
                         ?.run { it }
                 }
         }.flatten()
