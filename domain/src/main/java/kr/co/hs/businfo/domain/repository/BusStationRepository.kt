@@ -6,4 +6,5 @@ interface BusStationRepository {
     suspend fun getBusStationById(id: Int): List<BusStation>
     suspend fun searchBusStationByName(name: String): List<BusStation>
     suspend fun getBusStationByBusNum(id: Int): List<BusStation>
+    suspend fun getBusStationByUserLocation(latitude: Double, longitude: Double): List<BusStation>
 }
