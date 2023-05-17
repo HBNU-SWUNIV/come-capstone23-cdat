@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 기존의 테마 속성들 -->
+        <item name="android:statusBarColor">@color/skyblue</item>
+    </style>
+</resources>

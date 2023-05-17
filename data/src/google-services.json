@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "84193011296",
+    "project_id": "businfo-aeee9",
+    "storage_bucket": "businfo-aeee9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84193011296:android:f394b41b9da4740fdfc505",
+        "android_client_info": {
+          "package_name": "kr.co.hs.businfo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84193011296-j9dn2vjctf7gb370doffembh75qlb3a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDZaT0cOHdguaXVUcrIy_uNW6f45ZcEJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84193011296-j9dn2vjctf7gb370doffembh75qlb3a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84193011296:android:98ac93f61c3d228bdfc505",
+        "android_client_info": {
+          "package_name": "kr.co.hs.businfo.data"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84193011296-j9dn2vjctf7gb370doffembh75qlb3a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDZaT0cOHdguaXVUcrIy_uNW6f45ZcEJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84193011296-j9dn2vjctf7gb370doffembh75qlb3a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

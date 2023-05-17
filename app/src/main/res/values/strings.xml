@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">BusInfo</string>
+    <string name="businfo">BusInfo</string>
+    <string name="bus_station_info">BusStationInfo</string>
+    <string name="nosun">nosun</string>
 </resources>
