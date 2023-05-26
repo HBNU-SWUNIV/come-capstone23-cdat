@@ -6,10 +6,9 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.hs.businfo.R
 import kr.co.hs.businfo.viewmodel.BusStationViewModel
@@ -27,7 +26,7 @@ class BusStationInfoActivity : AppCompatActivity() {
 
         if (busStationId != -1) {
             // 정류소 ID를 사용하여 정류소 정보 가져오기
-            CoroutineScope(Dispatchers.Main).launch {
+            lifecycleScope.launch {
                 val busStationList = busStationViewModel.getBusStationById(busStationId)
                 if (busStationList.isNotEmpty()) {
                     val busStation = busStationList[0]

@@ -33,6 +33,10 @@ android {
 }
 
 dependencies {
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
 
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
