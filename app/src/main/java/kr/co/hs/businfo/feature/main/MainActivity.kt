@@ -33,6 +33,11 @@ import kr.co.hs.businfo.feature.BusDriver.BusDriverActivity
 import kr.co.hs.businfo.viewmodel.BusStationViewModel
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    companion object {
+        const val RC_PERMISSION_LOCATION = 101
+    }
+
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -69,7 +74,27 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mapFragment.getMapAsync(this)
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), RC_PERMISSION_LOCATION
+            )
+        }
+
+        val sharedPref = getSharedPreferences("bus_driver_mode", MODE_PRIVATE)
+        val isBusDriverModeEnabled = sharedPref.getBoolean("bus_driver_mode_enabled", false)
+        if (isBusDriverModeEnabled) {
+            // 버스기사 화면으로 전환
+            val intent = Intent(this, BusDriverActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -193,6 +218,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onMapReady(mMap)
             }
+        } else if (requestCode == RC_PERMISSION_LOCATION) {
+            val mapFragment =
+                supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+            mapFragment.getMapAsync(this)
         }
     }
     private fun checkLocationPermission(): Boolean {
