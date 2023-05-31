@@ -12,8 +12,7 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,6 +26,8 @@ class BusDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
 
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 123
@@ -38,15 +39,26 @@ class BusDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        val setting_button = findViewById<ImageButton>(R.id.setting_button)
+        val settingButton = findViewById<ImageButton>(R.id.setting_button)
 
-        setting_button.setOnClickListener {
+        settingButton.setOnClickListener {
             // 클릭 이벤트 발생 시 설정 메뉴를 표시하는 코드 작성
-            showSettingsMenu(setting_button)
+            showSettingsMenu(settingButton)
         }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        createLocationRequest()
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    // 위치가 업데이트될 때마다 호출되는 콜백 함수
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
+                }
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -90,6 +102,7 @@ class BusDriverActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
+
     private fun showSettingsMenu(anchorView: View) {
         val popupMenu = PopupMenu(this, anchorView)
         popupMenu.menuInflater.inflate(R.menu.settings_menu, popupMenu.menu)
@@ -107,5 +120,12 @@ class BusDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         popupMenu.show()
+    }
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest.create().apply {
+            interval = 10000 // Update interval in milliseconds (10 seconds)
+            fastestInterval = 5000 // Fastest update interval in milliseconds (5 seconds)
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
     }
 }

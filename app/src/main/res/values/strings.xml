@@ -2,7 +2,11 @@
     <string name="businfo">BusInfo</string>
     <string name="bus_station_info">BusStationInfo</string>
     <string name="nosun">nosun</string>
+    <string name="bottomnavigation">bottomnavigation</string>
     <string name="busdriversetting">BusDriverSetting</string>
     <string name="busdriveractivity">BusDriverActivity</string>
     <string name="busdriverauthentication">BusDriverActivity</string>
+    <string name="favorite">favorite</string>
+    <string name="direction">direction</string>
+    <string name="home">home</string>
 </resources>

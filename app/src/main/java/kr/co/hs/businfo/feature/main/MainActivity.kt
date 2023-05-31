@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val searchEditText = findViewById<EditText>(R.id.Search)
-        val searchButton = findViewById<Button>(R.id.search_button) // 검색 버튼 추가
+        val searchButton = findViewById<Button>(R.id.search_button)
 
         searchButton.setOnClickListener {
             val query = searchEditText.text.toString()
