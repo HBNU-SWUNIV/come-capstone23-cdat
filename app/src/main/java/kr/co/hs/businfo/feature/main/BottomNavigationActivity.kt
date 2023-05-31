@@ -4,20 +4,19 @@ import android.os.Bundle
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.MapFragment
 import kr.co.hs.businfo.R
 
 class BottomNavigationActivity : AppCompatActivity() {
     private lateinit var favoriteFragment: Fragment
-    private lateinit var MapFragment: Fragment
-    private lateinit var DirectionFragment: Fragment
+    private lateinit var directionFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         favoriteFragment = FavoriteFragment()
-        MapFragment = MainActivity()
-        DirectionFragment = DirectionFragment()
+        directionFragment = DirectionFragment()
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, favoriteFragment)
@@ -25,7 +24,6 @@ class BottomNavigationActivity : AppCompatActivity() {
         }
 
         val navigationFavorite = findViewById<ImageButton>(R.id.favorite)
-        val navigationMap = findViewById<ImageButton>(R.id.map)
         val navigationDirection = findViewById<ImageButton>(R.id.direction)
 
         navigationFavorite.setOnClickListener {
@@ -35,16 +33,9 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
         }
 
-        navigationMap.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment_container, MapFragment)
-                commit()
-            }
-        }
-
         navigationDirection.setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment_container, DirectionFragment)
+                replace(R.id.fragment_container, directionFragment)
                 commit()
             }
         }
