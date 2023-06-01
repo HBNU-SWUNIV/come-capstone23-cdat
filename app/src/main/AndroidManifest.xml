@@ -51,10 +51,6 @@
             android:theme="@style/AppTheme"
             android:name="kr.co.hs.businfo.feature.BusDriver.BusDriverAuthentication"
             android:label="@string/busdriverauthentication" />
-        <activity
-            android:theme="@style/AppTheme"
-            android:name="kr.co.hs.businfo.feature.main.BottomNavigationActivity"
-            android:label="@string/bottomnavigation" />
     </application>
 
 </manifest>

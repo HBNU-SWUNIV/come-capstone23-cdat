@@ -9,8 +9,7 @@ import kr.co.hs.businfo.R
 
 class FavoriteFragment : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.favorite, container, false)
