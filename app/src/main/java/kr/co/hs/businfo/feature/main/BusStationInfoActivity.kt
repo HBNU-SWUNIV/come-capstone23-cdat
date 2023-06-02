@@ -3,7 +3,9 @@ package kr.co.hs.businfo.feature.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -43,6 +45,16 @@ class BusStationInfoActivity : AppCompatActivity() {
         } else {
             Log.d("BusStationInfoActivity", "busStationId is invalid")
             // busStationId가 유효하지 않은 경우 처리
+        }
+
+        val favoriteButton = findViewById<Button>(R.id.favorite_button)
+        val busNameTextView = findViewById<TextView>(R.id.busName)
+
+        favoriteButton.setOnClickListener {
+            val busStopName = busNameTextView.text.toString()
+            val favoriteFragment = supportFragmentManager.findFragmentById(R.id.favorite) as? FavoriteFragment
+            favoriteFragment?.addFavoriteItem(busStopName)
+            Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가됐습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
