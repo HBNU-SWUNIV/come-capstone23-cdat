@@ -1,6 +1,7 @@
 package kr.co.hs.businfo.data.mapper
 
 import kr.co.hs.businfo.data.model.BusStationModel
+import kr.co.hs.businfo.data.model.BusStopInfoModel
 import kr.co.hs.businfo.domain.model.BusStation
 
 object BusStationMapper {
@@ -16,4 +17,16 @@ object BusStationMapper {
             transitBus = bus ?: emptyList()
         )
     }
+
+    fun BusStopInfoModel.toDomain(): BusStation? {
+        return BusStation(
+            stationId = stopId,
+            stationName = name,
+            stationLatitude = location.latitude,
+            stationLongitude = location.longitude,
+            transitBus = routeBusList ?: emptyList()
+        )
+    }
+
+
 }
