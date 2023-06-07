@@ -37,6 +37,18 @@ class BusStationInfoActivity : AppCompatActivity() {
                     // 정류소 이름 설정
                     val busNameTextView = findViewById<TextView>(R.id.busName)
                     busNameTextView.text = busStation.stationName
+
+                    val favoriteButton = findViewById<Button>(R.id.favorite_button)
+
+                    favoriteButton.setOnClickListener {
+                        val busStopName = busNameTextView.text.toString()
+
+                        val favoriteFragment = supportFragmentManager.findFragmentById(R.id.favorite) as? FavoriteFragment
+                        favoriteFragment?.addFavoriteItem(busStopName)
+                        Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                        Log.d("BusStationInfoActivity", "버스 정류장 이름: $busStopName") // 추가된 로그
+                    }
+
                 } else {
                     Log.d("BusStationInfoActivity", "No bus station found with ID: $busStationId")
                     // 해당 ID에 해당하는 정류소를 찾을 수 없는 경우 처리
@@ -45,16 +57,6 @@ class BusStationInfoActivity : AppCompatActivity() {
         } else {
             Log.d("BusStationInfoActivity", "busStationId is invalid")
             // busStationId가 유효하지 않은 경우 처리
-        }
-
-        val favoriteButton = findViewById<Button>(R.id.favorite_button)
-        val busNameTextView = findViewById<TextView>(R.id.busName)
-
-        favoriteButton.setOnClickListener {
-            val busStopName = busNameTextView.text.toString()
-            val favoriteFragment = supportFragmentManager.findFragmentById(R.id.favorite) as? FavoriteFragment
-            favoriteFragment?.addFavoriteItem(busStopName)
-            Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가됐습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.hs.businfo.R
 
-class FavoriteListAdapter(private val context: Context, private val favoriteItems: List<String>) : RecyclerView.Adapter<FavoriteListAdapter.FavoriteViewHolder>() {
+class FavoriteListAdapter(private val context: Context, private val favoriteItems: MutableList<String>) : RecyclerView.Adapter<FavoriteListAdapter.FavoriteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.favorite_item, parent, false)

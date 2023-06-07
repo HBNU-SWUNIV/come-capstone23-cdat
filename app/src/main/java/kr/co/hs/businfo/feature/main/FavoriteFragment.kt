@@ -12,7 +12,7 @@ import kr.co.hs.businfo.R
 
 class FavoriteFragment : Fragment() {
     private lateinit var favoriteListAdapter: FavoriteListAdapter
-    private val favoriteItems: MutableList<String> = mutableListOf()
+    private val favoriteItems: MutableList<String> = mutableListOf("Item 1", "Item 2", "Item 3")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.favorite, container, false)
@@ -28,7 +28,7 @@ class FavoriteFragment : Fragment() {
 
     fun addFavoriteItem(item: String) {
         favoriteItems.add(item)
-        Log.d("FavoriteFragment", "Added item: $item") // 로그 출력
-        favoriteListAdapter.notifyItemInserted(favoriteItems.size - 1)
+        Log.d("FavoriteFragment", "아이템 추가됨: $item") // 호출 시점 로그 출력
+        favoriteListAdapter.notifyDataSetChanged() // 변경된 내용을 어댑터에 알립니다.
     }
 }
