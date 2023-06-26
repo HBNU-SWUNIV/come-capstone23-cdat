@@ -6,9 +6,61 @@
     <TextView
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
+        android:id="@+id/busnum_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="102"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="30dp"
+        android:paddingBottom="10dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bus_time"
+            android:layout_gravity="center" />
+    <TextView
+        android:layout_gravity="center"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:id="@+id/busnum_time2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="버스 시간표"
+        android:textStyle="bold"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="첫차 : "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="막차 : "/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_gravity="center"
+        android:layout_width="380dp"
+        android:layout_height="1dp"
+        android:background="@color/skyblue"
+        android:paddingHorizontal="10dp"/>
+    <TextView
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
         android:id="@+id/textone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="노선 정보"
         android:textStyle="bold"/>
     <LinearLayout

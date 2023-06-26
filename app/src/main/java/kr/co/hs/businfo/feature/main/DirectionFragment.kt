@@ -20,6 +20,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import kr.co.hs.businfo.R
+import java.net.URLEncoder
 
 class DirectionFragment : Fragment() {
     private lateinit var locationManager: LocationManager
@@ -43,7 +44,6 @@ class DirectionFragment : Fragment() {
             if (destinationEditText.text.isNotEmpty()) {
                 navigateToNaverDirections()
             } else {
-                // 대상 위치를 입력하세요.
                 Toast.makeText(requireContext(), "대상 위치를 입력하세요.", Toast.LENGTH_SHORT).show()
             }
         }
@@ -51,9 +51,9 @@ class DirectionFragment : Fragment() {
         locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
-                // 위치가 변경될 때마다 자동으로 네이버 지도로 이동하지 않도록 주석 처리
+                // 위치가 변경될 때마다 자동으로 navigateToNaverDirections() 호출하지 않도록 주석 처리
                 // val currentLocation = "start=${location.latitude},${location.longitude}"
-                // navigateToNaverDirections(currentLocation)
+                // navigateToNaverDirections()
             }
 
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
@@ -73,11 +73,11 @@ class DirectionFragment : Fragment() {
         val destination = destinationEditText.text.toString()
 
         if (destination.isNotEmpty()) {
-            val geoUri = Uri.parse("geo:0,0?q=$destination")
-            val intent = Intent(Intent.ACTION_VIEW, geoUri)
+            val encodedDestination = URLEncoder.encode(destination, "utf-8")
+            val naverMapUrl = "https://m.map.naver.com/search2/search.naver?query=$encodedDestination&sm=hty&style=v5"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(naverMapUrl))
             startActivity(intent)
         } else {
-            // 대상 위치를 입력하세요.
             Toast.makeText(requireContext(), "대상 위치를 입력하세요.", Toast.LENGTH_SHORT).show()
         }
     }

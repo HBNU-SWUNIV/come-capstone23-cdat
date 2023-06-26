@@ -12,7 +12,7 @@ import kr.co.hs.businfo.R
 
 class FavoriteFragment : Fragment() {
     private lateinit var favoriteListAdapter: FavoriteListAdapter
-    private val favoriteItems: MutableList<String> = mutableListOf("Item 1", "Item 2", "Item 3")
+    private val favoriteItems: MutableList<String> = mutableListOf("한밭대학교")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.favorite, container, false)

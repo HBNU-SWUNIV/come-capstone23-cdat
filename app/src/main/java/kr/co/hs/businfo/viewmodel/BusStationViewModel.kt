@@ -45,6 +45,30 @@ class BusStationViewModel(private val busStationRepository: BusStationRepository
             busStationRepository.searchBusStationByName(name)
         }
     }
+    suspend fun getNearestBusStations(
+        latitude: Double,
+        longitude: Double,
+        radius: Double,
+        limit: Int
+    ): List<BusStation> {
+        return withContext(Dispatchers.IO) {
+            busStationRepository.getBusStationByUserLocation(latitude, longitude, radius)
+                .sortedBy { calculateDistance(latitude, longitude, it.stationLatitude, it.stationLongitude) }
+                .take(limit)
+        }
+    }
+
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val R = 6371 // 지구 반지름 (단위: km)
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+        val distance = R * c
+        return distance
+    }
 
 
     fun request() {

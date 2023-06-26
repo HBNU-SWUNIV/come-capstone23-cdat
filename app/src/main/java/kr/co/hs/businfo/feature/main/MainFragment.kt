@@ -11,11 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -105,7 +101,7 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         mMap.isMyLocationEnabled = true
 
-        val radius = 500.0
+        val radius = 5000.0
 
         if (checkLocationPermission()) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
@@ -116,12 +112,13 @@ class MainFragment : Fragment(), OnMapReadyCallback {
                     val busStationViewModel =
                         ViewModelProvider(this).get(BusStationViewModel::class.java)
                     CoroutineScope(Dispatchers.Main).launch {
-                        // 내 주변 정류소 가져오기
+                        // 가까운 정류장 5개 가져오기
                         val busStations =
-                            busStationViewModel.getBusStationByUserLocation(
+                            busStationViewModel.getNearestBusStations(
                                 it.latitude,
                                 it.longitude,
-                                radius
+                                radius,
+                                5
                             )
                         // 가져온 정류소에 대해 마커 추가하기
                         for (busStation in busStations) {
@@ -131,7 +128,7 @@ class MainFragment : Fragment(), OnMapReadyCallback {
                                 MarkerOptions().position(stationLocation)
                                     .title(busStation.stationName)
                             )
-                            marker?.tag = busStation // 마커에 정류소 정보를 태그로 저장
+                            marker?.tag = busStation
                         }
                     }
                 }
