@@ -43,6 +43,7 @@ class BusStationInfoActivity : AppCompatActivity() {
                     favoriteButton.setOnClickListener {
                         val busStopName = busNameTextView.text.toString()
 
+
                         val favoriteFragment = supportFragmentManager.findFragmentById(R.id.favorite) as? FavoriteFragment
                         favoriteFragment?.addFavoriteItem(busStopName)
                         Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가되었습니다.", Toast.LENGTH_SHORT).show()
