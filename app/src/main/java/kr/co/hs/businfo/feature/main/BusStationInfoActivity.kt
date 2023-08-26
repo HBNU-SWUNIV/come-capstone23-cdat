@@ -27,8 +27,6 @@ class BusStationInfoActivity : AppCompatActivity() {
         val busStationId = intent.getIntExtra("busStationId", -1)
         busStationViewModel = ViewModelProvider(this).get(BusStationViewModel::class.java)
 
-        favoriteFragment = FavoriteFragment() // 여기서 초기화
-
         if (busStationId != -1) {
             lifecycleScope.launch {
                 val busStationList = busStationViewModel.getBusStationById(busStationId)
@@ -43,12 +41,20 @@ class BusStationInfoActivity : AppCompatActivity() {
 
                     favoriteButton.setOnClickListener {
                         val busStopName = busNameTextView.text.toString()
-
-                        favoriteFragment.addFavoriteItem(busStopName)
+                        busStationViewModel.addFavoriteItem(busStopName)
 
                         Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가되었습니다.", Toast.LENGTH_SHORT).show()
                         Log.d("BusStationInfoActivity", "버스 정류장 이름: $busStopName")
                     }
+
+                    // FavoriteFragment 동적으로 추가 및 초기화
+                    if (!::favoriteFragment.isInitialized) {
+                        favoriteFragment = FavoriteFragment()
+                        supportFragmentManager.beginTransaction()
+                            .add(favoriteFragment, "favoriteFragment")
+                            .commit()
+                    }
+
                 } else {
                     Log.d("BusStationInfoActivity", "No bus station found with ID: $busStationId")
                 }

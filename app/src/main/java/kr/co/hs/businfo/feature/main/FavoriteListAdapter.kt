@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.hs.businfo.R
-
 class FavoriteListAdapter(private val context: Context, private val favoriteItems: MutableList<String>) : RecyclerView.Adapter<FavoriteListAdapter.FavoriteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -30,5 +29,12 @@ class FavoriteListAdapter(private val context: Context, private val favoriteItem
         fun bind(busStopName: String) {
             busStopNameTextView.text = busStopName
         }
+    }
+
+    // 데이터 변경을 감지, 어댑터 갱신
+    fun updateData(newFavoriteItems: List<String>) {
+        favoriteItems.clear()
+        favoriteItems.addAll(newFavoriteItems)
+        notifyDataSetChanged()
     }
 }

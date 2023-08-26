@@ -1,5 +1,6 @@
 package kr.co.hs.businfo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +24,19 @@ class BusStationViewModel(private val busStationRepository: BusStationRepository
     private val _busStations = MutableLiveData<List<BusStation>>()
     val busStation: LiveData<List<BusStation>> by this::_busStations
 
+    private val _favoriteItems = MutableLiveData<List<String>>()
+    val favoriteItems: LiveData<List<String>> = _favoriteItems
+
     constructor() : this(BusStationRepositoryImpl())
+
+
+    fun addFavoriteItem(item: String) {
+        val updatedList = _favoriteItems.value.orEmpty().toMutableList()
+        updatedList.add(item)
+        Log.d("FavoriteFragment", "아이템 추가됨: $item")
+        _favoriteItems.value = updatedList // postValue 대신 value 사용
+    }
+
 
     suspend fun getBusStationByUserLocation(
         latitude: Double,
@@ -72,11 +85,8 @@ class BusStationViewModel(private val busStationRepository: BusStationRepository
 
 
     fun request() {
-
         viewModelScope.launch {
-//            val busStationRepository = TestBusStationRepository()
             val result = busStationRepository.getBusStationById(1)
-
             _busStations.value = result
         }
     }
