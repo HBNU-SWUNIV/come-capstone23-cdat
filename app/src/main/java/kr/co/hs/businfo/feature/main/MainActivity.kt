@@ -7,18 +7,21 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import kr.co.hs.businfo.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kr.co.hs.businfo.App
+import kr.co.hs.businfo.viewmodel.BusStationViewModel
 
 class MainActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
-
+    private lateinit var busStationViewModel: BusStationViewModel
     private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        busStationViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(BusStationViewModel::class.java)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
@@ -31,6 +34,11 @@ class MainActivity : AppCompatActivity(),
         requestLocationPermission()
     }
 
+    override fun onResume() {
+        val app = applicationContext as App
+        busStationViewModel.favoriteList = app.favoriteList
+        super.onResume()
+    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val selectedFragment: Fragment = when (item.itemId) {
             R.id.favorite -> FavoriteFragment()

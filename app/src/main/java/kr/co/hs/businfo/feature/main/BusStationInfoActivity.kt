@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import kr.co.hs.businfo.App
 import kr.co.hs.businfo.R
 import kr.co.hs.businfo.viewmodel.BusStationViewModel
 
@@ -25,7 +26,7 @@ class BusStationInfoActivity : AppCompatActivity() {
         setContentView(R.layout.bus_information)
 
         val busStationId = intent.getIntExtra("busStationId", -1)
-        busStationViewModel = ViewModelProvider(this).get(BusStationViewModel::class.java)
+        busStationViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(BusStationViewModel::class.java)
 
         if (busStationId != -1) {
             lifecycleScope.launch {
@@ -38,21 +39,20 @@ class BusStationInfoActivity : AppCompatActivity() {
                     busNameTextView.text = busStation.stationName
 
                     val favoriteButton = findViewById<Button>(R.id.favorite_button)
-
-                    favoriteButton.setOnClickListener {
-                        val busStopName = busNameTextView.text.toString()
-                        busStationViewModel.addFavoriteItem(busStopName)
-
-                        Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가되었습니다.", Toast.LENGTH_SHORT).show()
-                        Log.d("BusStationInfoActivity", "버스 정류장 이름: $busStopName")
-                    }
-
                     // FavoriteFragment 동적으로 추가 및 초기화
                     if (!::favoriteFragment.isInitialized) {
                         favoriteFragment = FavoriteFragment()
                         supportFragmentManager.beginTransaction()
                             .add(favoriteFragment, "favoriteFragment")
                             .commit()
+                    }
+                    favoriteButton.setOnClickListener {
+                        val busStopName = busNameTextView.text.toString()
+                        val app = applicationContext as App
+                        app.favoriteList.add(busStopName)
+
+                        Toast.makeText(this@BusStationInfoActivity, "즐겨찾기 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                        Log.d("BusStationInfoActivity", "버스 정류장 이름: $busStopName")
                     }
 
                 } else {

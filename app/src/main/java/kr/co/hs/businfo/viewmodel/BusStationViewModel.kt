@@ -29,7 +29,9 @@ class BusStationViewModel(private val busStationRepository: BusStationRepository
 
     constructor() : this(BusStationRepositoryImpl())
 
-
+    var favoriteList: List<String>? = null
+    set(value) {field = value
+        _favoriteItems.value = value}
     fun addFavoriteItem(item: String) {
         val updatedList = _favoriteItems.value.orEmpty().toMutableList()
         updatedList.add(item)
