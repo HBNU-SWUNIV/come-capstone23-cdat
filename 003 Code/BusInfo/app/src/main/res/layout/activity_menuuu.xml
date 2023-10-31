@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainfragment"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:background="@color/skyblue"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:layout_weight="0.9"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="        지도"/>
+
+            <ImageButton
+                android:id="@+id/setting_button"
+                android:background="@color/skyblue"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/setting"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <EditText
+                android:layout_weight="0.7"
+                android:id="@+id/Search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="버스 정류장 이름을 검색하세요"
+                android:textSize="15dp"
+                android:padding="10dp"
+                android:imeOptions="actionSearch" />
+
+            <Button
+                android:layout_weight="0.2"
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:text="검색"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/skyblue"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_below="@id/Search"
+            android:orientation="vertical">
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".feature.main.MainActivity" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
